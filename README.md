@@ -20,4 +20,4 @@ $ yarn
 
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [TailwindCss](https://tailwindcss.com/)
+- [TailwindCSS](https://tailwindcss.com/)
