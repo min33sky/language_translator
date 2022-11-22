@@ -19,8 +19,6 @@ export default function Translator() {
     const inputName = e.target.name;
     if (inputName === 'fromText') {
       setFromText(e.target.value);
-    } else {
-      setToText(e.target.value); //? 이거 필요 없을 듯 ????
     }
   };
 
@@ -54,6 +52,10 @@ export default function Translator() {
     }
   };
 
+  const handleClipboard = (type: 'from' | 'to') => {
+    navigator.clipboard.writeText(type === 'from' ? fromText : toText);
+  };
+
   return (
     <div className="w-11/12 max-w-3xl space-y-6 rounded-lg bg-slate-200 px-4 py-8 shadow-lg">
       <div className="-space-y-2">
@@ -66,8 +68,15 @@ export default function Translator() {
               value={fromText}
               onChange={handleInputText}
             />
-            <SpeakerWaveIcon className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100" />
-            <ClipboardDocumentIcon className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100" />
+            <SpeakerWaveIcon
+              title="음성"
+              className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+            />
+            <ClipboardDocumentIcon
+              title="클립보드에 복사"
+              onClick={() => handleClipboard('from')}
+              className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+            />
           </div>
 
           <div className="relative  border border-gray-300">
@@ -79,8 +88,15 @@ export default function Translator() {
               readOnly
               disabled
             />
-            <SpeakerWaveIcon className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100" />
-            <ClipboardDocumentIcon className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100" />
+            <SpeakerWaveIcon
+              title="음성"
+              className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+            />
+            <ClipboardDocumentIcon
+              title="클립보드에 복사"
+              onClick={() => handleClipboard('to')}
+              className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+            />
           </div>
         </section>
 
@@ -102,9 +118,9 @@ export default function Translator() {
       </div>
 
       <button
-        disabled={isLoading}
+        disabled={isLoading || !fromText}
         onClick={handleClickTranslate}
-        className={`w-full rounded-md bg-green-600 py-3 text-lg font-semibold tracking-widest text-green-100 transition hover:bg-green-800 disabled:cursor-progress disabled:bg-gray-500`}
+        className={`w-full rounded-md bg-green-600 py-3 text-lg font-semibold tracking-widest text-green-100 transition hover:bg-green-800 disabled:cursor-progress disabled:bg-gray-500 disabled:text-gray-100`}
       >
         {isLoading ? '번역 중...' : '번역하기'}
       </button>
