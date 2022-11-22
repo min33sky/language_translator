@@ -7,6 +7,7 @@ import {
 import Selector from './Selector';
 import { LanguageKeys } from '../utils/languages';
 import { getTranslate } from '../api/getTranslate';
+import toast from 'react-hot-toast';
 
 export default function Translator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,14 +58,26 @@ export default function Translator() {
    * @param type
    */
   const handleClipboard = (type: 'from' | 'to') => {
+    toast.success('클립보드에 복사되었습니다.');
     navigator.clipboard.writeText(type === 'from' ? fromText : toText);
   };
 
+  /**
+   * 번역 언어 변경 핸들러
+   */
   const handleSwapLanguage = () => {
     setFromLanguage(toLanguage);
     setToLanguage(fromLanguage);
     setFromText(toText);
     setToText(fromText);
+  };
+
+  const handleSpeak = (type: 'from' | 'to') => {
+    const utterance = new SpeechSynthesisUtterance(
+      type === 'from' ? fromText : toText,
+    );
+    utterance.lang = type === 'from' ? fromLanguage : toLanguage;
+    speechSynthesis.speak(utterance);
   };
 
   return (
@@ -81,6 +94,7 @@ export default function Translator() {
             />
             <SpeakerWaveIcon
               title="음성"
+              onClick={() => handleSpeak('from')}
               className="absolute bottom-3 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
             <ClipboardDocumentIcon
@@ -101,6 +115,7 @@ export default function Translator() {
             />
             <SpeakerWaveIcon
               title="음성"
+              onClick={() => handleSpeak('to')}
               className="absolute bottom-3 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
             <ClipboardDocumentIcon
