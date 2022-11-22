@@ -52,8 +52,19 @@ export default function Translator() {
     }
   };
 
+  /**
+   * 클립보드 복사 핸들러
+   * @param type
+   */
   const handleClipboard = (type: 'from' | 'to') => {
     navigator.clipboard.writeText(type === 'from' ? fromText : toText);
+  };
+
+  const handleSwapLanguage = () => {
+    setFromLanguage(toLanguage);
+    setToLanguage(fromLanguage);
+    setFromText(toText);
+    setToText(fromText);
   };
 
   return (
@@ -70,12 +81,12 @@ export default function Translator() {
             />
             <SpeakerWaveIcon
               title="음성"
-              className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+              className="absolute bottom-3 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
             <ClipboardDocumentIcon
               title="클립보드에 복사"
               onClick={() => handleClipboard('from')}
-              className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+              className="absolute bottom-3 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
           </div>
 
@@ -90,12 +101,12 @@ export default function Translator() {
             />
             <SpeakerWaveIcon
               title="음성"
-              className="absolute top-2 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+              className="absolute bottom-3 right-2 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
             <ClipboardDocumentIcon
               title="클립보드에 복사"
               onClick={() => handleClipboard('to')}
-              className="absolute top-2 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-40 transition hover:opacity-100"
+              className="absolute bottom-3 right-10 h-6 w-6 cursor-pointer text-gray-400 opacity-60 transition hover:opacity-100"
             />
           </div>
         </section>
@@ -107,7 +118,11 @@ export default function Translator() {
             changeLanguage={handleSelectLanguage}
           />
 
-          <ArrowsRightLeftIcon className="h-6 w-6 cursor-pointer text-gray-500 transition hover:text-green-500" />
+          <ArrowsRightLeftIcon
+            title="교환하기"
+            onClick={handleSwapLanguage}
+            className="h-6 w-6 cursor-pointer text-gray-500 transition hover:text-green-500"
+          />
 
           <Selector
             type="to"
