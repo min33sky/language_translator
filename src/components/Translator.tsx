@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Selector from './Selector';
 import { LanguageKeys } from '../utils/languages';
+import { getTranslate } from '../api/getTranslate';
 
 export default function Translator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +27,18 @@ export default function Translator() {
   /**
    * 번역 버튼 핸들러
    */
-  const handleClickTranslate = () => {
+  const handleClickTranslate = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+
+    const data = await getTranslate({
+      text: fromText,
+      translateFrom: fromLanguage,
+      translateTo: toLanguage,
+    });
+
+    setToText(data.responseData.translatedText);
+
+    setIsLoading(false);
   };
 
   /**
@@ -67,8 +75,7 @@ export default function Translator() {
               name="toText"
               className="h-64 w-full resize-none bg-white p-3 outline-none"
               placeholder="번역 결과"
-              value={toText}
-              onChange={handleInputText}
+              defaultValue={toText}
               readOnly
               disabled
             />

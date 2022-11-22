@@ -4,7 +4,7 @@
 
 ## Demo
 
-[Demo](https://준비중)
+[Demo](https://langstranslator.netlify.app/)
 
 ## Installation
 
